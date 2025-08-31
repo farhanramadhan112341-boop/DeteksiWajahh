@@ -1,7 +1,10 @@
+setuptools
+wheel
 streamlit
+ultralytics==8.0.196
 opencv-python-headless
-pillow
-numpy
-streamlit-webrtc
+Pillow
 av
-ultralytics
+streamlit-webrtc
+numpy
+
