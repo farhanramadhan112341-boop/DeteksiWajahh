@@ -9,9 +9,11 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 # === Load Model ===
 @st.cache_resource
 def load_model():
-    return YOLO("model/best.pt")
-
-model = load_model()
+    model_path = os.path.join("model", "best.pt")
+    if not os.path.exists(model_path):
+        st.error("❌ Model tidak ditemukan. Pastikan file `model/best.pt` ada di repo.")
+        st.stop()
+    return YOLO(model_path)
 
 # Mapping class → label Indo
 classes = {
@@ -66,4 +68,5 @@ elif page == "Deteksi Foto":
 
     if uploaded_file is not None:
             ("dan cek permission kamera di browser.")
+
 
