@@ -65,4 +65,5 @@ elif page == "Deteksi Foto":
     uploaded_file = st.file_uploader("Upload foto wajah", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
-            "dan cek permission kamera di browser.")
+            ("dan cek permission kamera di browser.")
+
