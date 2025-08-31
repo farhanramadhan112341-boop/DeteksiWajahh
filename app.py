@@ -9,15 +9,7 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 # === Load Model ===
 @st.cache_resource
 def load_model():
-    model_path = os.path.join("model/best.pt")
-    if not os.path.exists(model_path):
-        st.error("❌ File model tidak ditemukan. Pastikan `model/best.pt` ada di repo.")
-        return None
-    try:
-        return YOLO(model_path)
-    except Exception as e:
-        st.error(f"❌ Gagal load model: {e}")
-        return None
+    return YOLO("model/best.pt")
 
 model = load_model()
 
@@ -74,20 +66,15 @@ elif page == "Deteksi Foto":
 
     if uploaded_file is not None:
         img = Image.open(uploaded_file).convert("RGB")
-        st.image(img, caption="Gambar yang di-upload", use_container_width=True)
+        st.image(img, caption="Gambar yang diupload", use_container_width=True)
 
-        try:
-            # Prediksi aman
-            results = model.predict(source=img, imgsz=224, conf=0.25, verbose=False)
-            
-            for r in results:
-                for c in r.boxes.cls.cpu().numpy():
-                    cls_name = model.names[int(c)]
-                    indo_label = classes.get(cls_name, cls_name)
-                    st.success(f"Deteksi: **{indo_label}** ({cls_name})")
-        except Exception as e:
-            st.error(f"❌ Prediksi gagal: {e}")
-
+        # Prediksi
+        results = model.predict(img, imgsz=224, conf=0.25, verbose=False)
+        probs = results[0].probs
+        cls_id = int(probs.top1)
+        conf = float(probs.top1conf)
+        pred_class = list(classes.keys())[cls_id]
+        st.success(f"Prediksi: **{classes[pred_class]}** ({conf:.2f})")
 
 # ===========================
 # HALAMAN 3 - DETEKSI REALTIME
@@ -143,6 +130,3 @@ elif page == "Deteksi Realtime":
     st.info("Izinkan akses kamera di browser Anda. "
             "Jika tidak muncul gambar, pastikan menggunakan HTTPS atau localhost, "
             "dan cek permission kamera di browser.")
-
-
-
