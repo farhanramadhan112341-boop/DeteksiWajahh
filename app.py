@@ -11,9 +11,15 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 def load_model():
     model_path = os.path.join("model", "best.pt")
     if not os.path.exists(model_path):
-        st.error("❌ Model tidak ditemukan. Pastikan file `model/best.pt` ada di repo.")
-        st.stop()
-    return YOLO(model_path)
+        st.error("❌ File model tidak ditemukan. Pastikan `model/best.pt` ada di repo.")
+        return None
+    try:
+        return YOLO(model_path)
+    except Exception as e:
+        st.error(f"❌ Gagal load model: {e}")
+        return None
+
+model = load_model()
 
 # Mapping class → label Indo
 classes = {
@@ -137,4 +143,5 @@ elif page == "Deteksi Realtime":
     st.info("Izinkan akses kamera di browser Anda. "
             "Jika tidak muncul gambar, pastikan menggunakan HTTPS atau localhost, "
             "dan cek permission kamera di browser.")
+
 
