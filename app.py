@@ -9,7 +9,7 @@ from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 # === Load Model ===
 @st.cache_resource
 def load_model():
-    model_path = os.path.join("model", "best.pt")
+    model_path = os.path.join("model/best.pt")
     if not os.path.exists(model_path):
         st.error("❌ File model tidak ditemukan. Pastikan `model/best.pt` ada di repo.")
         return None
@@ -143,5 +143,6 @@ elif page == "Deteksi Realtime":
     st.info("Izinkan akses kamera di browser Anda. "
             "Jika tidak muncul gambar, pastikan menggunakan HTTPS atau localhost, "
             "dan cek permission kamera di browser.")
+
 
 
