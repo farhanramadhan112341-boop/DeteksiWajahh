@@ -7,11 +7,7 @@ import av
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 
 # === Load Model ===
-@st.cache_resource
-def load_model():
-    return YOLO("model/best.pt")
-
-model = load_model()
+model = YOLO("best.pt") 
 
 # Mapping class → label Indo
 classes = {
@@ -130,3 +126,4 @@ elif page == "Deteksi Realtime":
     st.info("Izinkan akses kamera di browser Anda. "
             "Jika tidak muncul gambar, pastikan menggunakan HTTPS atau localhost, "
             "dan cek permission kamera di browser.")
+
