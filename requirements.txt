@@ -1,9 +1,7 @@
-setuptools
-wheel
 streamlit
 ultralytics
 opencv-python-headless
-Pillow
-av
-streamlit-webrtc
+pillow
 numpy
+streamlit-webrtc
+av
